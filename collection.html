@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Collection</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section class="page">
+  <div class="sec-head">
+    <div class="sec-kicker" data-i18n="col_kicker"></div>
+    <h2 class="sec-title" data-i18n="col_title"></h2>
+    <p class="sec-sub" data-i18n="col_sub"></p>
+  </div>
+  <form class="big-search" id="searchForm">
+    <input type="search" id="searchInput" data-i18n-ph="search_ph">
+    <button class="btn" type="submit">⌕</button>
+  </form>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</section>
+<script src="js/data.js"></script>
+<script>
+injectChrome();
+const params = new URLSearchParams(location.search);
+let filter = params.get("cat") || "all";
+let query = (params.get("q") || "").toLowerCase();
+document.getElementById("searchInput").value = params.get("q") || "";
+
+function match(p){
+  if(filter!=="all" && p.cat!==filter) return false;
+  if(!query) return true;
+  return p.fr.toLowerCase().includes(query) || p.en.toLowerCase().includes(query) || CATS[p.cat][lang].toLowerCase().includes(query);
+}
+function renderFilters(){
+  const f = document.getElementById("filters"); f.innerHTML = "";
+  const all = document.createElement("button");
+  all.textContent = t("all"); all.className = filter==="all"?"on":"";
+  all.onclick = ()=>{ filter="all"; renderFilters(); renderGrid(); };
+  f.appendChild(all);
+  Object.keys(CATS).forEach(c=>{
+    const b = document.createElement("button");
+    b.textContent = CATS[c][lang]; b.className = filter===c?"on":"";
+    b.onclick = ()=>{ filter=c; renderFilters(); renderGrid(); };
+    f.appendChild(b);
+  });
+}
+function renderGrid(){
+  const list = PRODUCTS.filter(match);
+  document.getElementById("grid").innerHTML = list.length ? list.map(p=>`
+    <div class="card"><div class="img"><img src="${p.img}" alt="" loading="lazy"></div>
+    <div class="info"><div class="cat">${CATS[p.cat][lang]}</div>
+    <div class="nm">${p[lang]}</div><div class="pr">${p.price}</div></div></div>`).join("")
+    : `<p style="grid-column:1/-1;text-align:center;color:var(--muted);letter-spacing:3px;font-family:Helvetica,sans-serif;font-size:12px;padding:40px 0">${t("no_res")}</p>`;
+}
+function renderAll(){ renderFilters(); renderGrid(); }
+renderAll();
+window.onLangChange = renderAll;
+
+document.getElementById("searchInput").addEventListener("input", e=>{
+  query = e.target.value.toLowerCase(); renderGrid();
+});
+document.getElementById("searchForm").onsubmit = e=>{ e.preventDefault(); };
+</script>
+</body>
+</html>

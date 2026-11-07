@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Commandes</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+<script>
+adminChrome("ord","d_ord");
+document.querySelector("main").insertAdjacentHTML("beforeend", `
+<div class="panel"><h3 data-i18n="d_recent"></h3>
+<table><thead><tr><th data-i18n="t_ref"></th><th data-i18n="t_cli"></th><th data-i18n="t_prod"></th><th data-i18n="t_mont"></th><th data-i18n="t_stat"></th><th data-i18n="t_date"></th></tr></thead>
+<tbody id="orders"></tbody></table></div>`);
+function render(){ document.getElementById("orders").innerHTML = ORDERS.map(o=>`
+  <tr><td>${o.ref}</td><td>${o.cli}</td><td>${o.prod[aLang]}</td><td>${o.amt}</td>
+  <td><span class="badge b-${o.st==='s_ok'?'ok':o.st==='s_wait'?'wait':'ship'}">${at(o.st)}</span></td><td>${o.date}</td></tr>`).join(""); }
+render();
+window.onAdminLangChange = ()=>{ applyAdminLang(); render(); };
+</script>
+</body>
+</html>

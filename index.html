@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Maison de Luxe</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="hero">
+  <img class="bg" src="assets/hero.jpg" alt="Black Market editorial">
+  <div class="shade"></div>
+  <div class="hero-inner">
+    <div class="kicker" data-i18n="hero_kicker"></div>
+    <h1 data-i18n="hero_title"></h1>
+    <p data-i18n="hero_sub"></p>
+    <div class="cta-row">
+      <a class="btn" href="collection.html" data-i18n="hero_cta"></a>
+      <a class="btn ghost" href="catalogues.html" data-i18n="nav_cat"></a>
+    </div>
+  </div>
+</div>
+
+<div class="marquee"><div class="track" id="marquee"></div></div>
+
+<section>
+  <div class="sec-head">
+    <div class="sec-kicker" data-i18n="c_kicker"></div>
+    <h2 class="sec-title" data-i18n="c_title"></h2>
+    <p class="sec-sub" data-i18n="c_sub"></p>
+  </div>
+  <div class="cat-grid" id="catGrid"></div>
+</section>
+
+<section style="padding-top:0">
+  <div class="sec-head">
+    <div class="sec-kicker" data-i18n="s_kicker"></div>
+    <h2 class="sec-title" data-i18n="s_title"></h2>
+  </div>
+  <div class="sig-grid" id="sigGrid"></div>
+</section>
+
+<div class="services"><div class="in">
+  <div><div class="ic">✦</div><h4 data-i18n="sv1t"></h4><p data-i18n="sv1d"></p></div>
+  <div><div class="ic">↺</div><h4 data-i18n="sv2t"></h4><p data-i18n="sv2d"></p></div>
+  <div><div class="ic">◆</div><h4 data-i18n="sv3t"></h4><p data-i18n="sv3d"></p></div>
+</div></div>
+
+<section class="news">
+  <div class="sec-kicker" data-i18n="n_kicker"></div>
+  <h2 class="sec-title" data-i18n="n_title"></h2>
+  <p class="sec-sub" data-i18n="n_sub"></p>
+  <form id="newsForm">
+    <input type="email" required data-i18n-ph="n_ph">
+    <button class="btn" type="submit" data-i18n="n_btn"></button>
+  </form>
+</section>
+
+<script src="js/data.js"></script>
+<script>
+injectChrome();
+const SIGNATURE = ["assets/sign1.jpg","assets/sign2.jpg","assets/sign3.jpg","assets/p17.jpg"];
+const SIG_NAMES = [PRODUCTS[0],PRODUCTS[3],PRODUCTS[10],PRODUCTS[16]];
+function renderMarquee(){ const it=t("mq").split("|"); document.getElementById("marquee").innerHTML=[...it,...it].map(x=>`<span>✦ <b>${x}</b></span>`).join(""); }
+function renderCats(){ document.getElementById("catGrid").innerHTML = Object.keys(CATS).map(c=>`
+  <a class="cat-tile" href="collection.html?cat=${c}"><img src="${CATS[c].img}" alt="">
+  <div class="ov"><div class="nm">${CATS[c][lang]}</div><div class="ln">${t("view")} →</div></div></a>`).join(""); }
+function renderSig(){ document.getElementById("sigGrid").innerHTML = SIGNATURE.map((s,i)=>{const p=SIG_NAMES[i];return `
+  <div class="sig-card"><div class="img"><img src="${s}" alt=""></div>
+  <div class="info"><div class="nm">${p[lang]}</div><div class="pr">${p.price}</div></div></div>`;}).join(""); }
+function renderAll(){ renderMarquee(); renderCats(); renderSig(); }
+renderAll();
+window.onLangChange = renderAll;
+document.getElementById("newsForm").onsubmit = e => { e.preventDefault(); e.target.innerHTML = `<p style="color:var(--gold2);letter-spacing:3px;font-size:12px">${t("n_ok")}</p>`; };
+</script>
+</body>
+</html>

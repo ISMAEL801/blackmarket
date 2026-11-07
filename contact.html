@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Contact</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section class="page">
+  <div class="contact-wrap">
+    <div class="sec-head">
+      <div class="sec-kicker" data-i18n="ct_kicker"></div>
+      <h2 class="sec-title" data-i18n="ct_title"></h2>
+      <p class="sec-sub" data-i18n="ct_sub"></p>
+    </div>
+    <form id="contactForm">
+      <input type="text" required data-i18n-ph="ct_name">
+      <input type="email" required data-i18n-ph="ct_mail">
+      <textarea rows="6" required data-i18n-ph="ct_msg"></textarea>
+      <div><button class="btn" type="submit" data-i18n="ct_send"></button></div>
+    </form>
+  </div>
+</section>
+<script src="js/data.js"></script>
+<script>
+injectChrome();
+document.getElementById("contactForm").onsubmit = e => { e.preventDefault(); e.target.innerHTML = `<p style="color:var(--gold2);letter-spacing:3px;font-size:13px;text-align:center">${t("ct_ok")}</p>`; };
+</script>
+</body>
+</html>

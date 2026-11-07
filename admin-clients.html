@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Clients</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+<script>
+adminChrome("cli","d_cli");
+document.querySelector("main").insertAdjacentHTML("beforeend", `
+<div class="panel"><h3 data-i18n="c_count"></h3>
+<table><thead><tr><th data-i18n="t_cli"></th><th data-i18n="c_mail"></th><th data-i18n="c_since"></th><th data-i18n="c_spent"></th></tr></thead>
+<tbody id="rows"></tbody></table></div>`);
+function render(){ document.getElementById("rows").innerHTML = CLIENTS.map(c=>`
+  <tr><td>${c.name}</td><td>${c.mail}</td><td>${c.since}</td><td>${c.spent}</td></tr>`).join(""); }
+render();
+window.onAdminLangChange = ()=>{ applyAdminLang(); render(); };
+</script>
+</body>
+</html>

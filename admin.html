@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Dashboard</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+<script>
+adminChrome("dash","d_title");
+const TOP = [
+  {img:"assets/p01.jpg",fr:"Manteau laine noir",en:"Black wool overcoat",s:{fr:"312 ventes",en:"312 sold"}},
+  {img:"assets/p04.jpg",fr:"Bottines Chelsea",en:"Chelsea boots",s:{fr:"287 ventes",en:"287 sold"}},
+  {img:"assets/p11.jpg",fr:"Sac cabas cuir noir",en:"Black leather tote",s:{fr:"241 ventes",en:"241 sold"}},
+  {img:"assets/p17.jpg",fr:"Chapeau feutre noir",en:"Black fedora",s:{fr:"198 ventes",en:"198 sold"}}
+];
+document.querySelector("main").insertAdjacentHTML("beforeend", `
+<div class="stats">
+  <div class="stat"><div class="lb" data-i18n="st_rev"></div><div class="vl">12 480 000</div><div class="dl up">▲ +12,4%</div></div>
+  <div class="stat"><div class="lb" data-i18n="st_ord"></div><div class="vl">148</div><div class="dl up">▲ +8,1%</div></div>
+  <div class="stat"><div class="lb" data-i18n="st_cli"></div><div class="vl">1 032</div><div class="dl up">▲ +5,6%</div></div>
+  <div class="stat"><div class="lb" data-i18n="st_pan"></div><div class="vl">84 300</div><div class="dl down">▼ -2,3%</div></div>
+</div>
+<div class="panels">
+  <div class="panel"><h3 data-i18n="d_sales"></h3>
+    <svg viewBox="0 0 600 220" width="100%" style="display:block">
+      <line x1="0" y1="200" x2="600" y2="200" stroke="rgba(201,168,106,.25)"/>
+      <polygon points="0,200 0,170 85,150 170,158 255,110 340,120 425,70 510,85 600,40 600,200" fill="rgba(201,168,106,.12)"/>
+      <polyline points="0,170 85,150 170,158 255,110 340,120 425,70 510,85 600,40" fill="none" stroke="#c9a86a" stroke-width="2.5"/>
+      <g fill="#9a917f" font-size="10" font-family="Helvetica" text-anchor="middle">
+        <text x="40" y="218">Lun</text><text x="125" y="218">Mar</text><text x="210" y="218">Mer</text><text x="295" y="218">Jeu</text><text x="380" y="218">Ven</text><text x="465" y="218">Sam</text><text x="550" y="218">Dim</text></g>
+      <circle cx="600" cy="40" r="4" fill="#e6cf9f"/><text x="545" y="28" fill="#e6cf9f" font-size="11" font-family="Helvetica">2 140 000</text>
+    </svg>
+  </div>
+  <div class="panel"><h3 data-i18n="d_top"></h3><div id="topList"></div></div>
+</div>
+<div class="panel"><h3 data-i18n="d_recent"></h3>
+  <table><thead><tr><th data-i18n="t_ref"></th><th data-i18n="t_cli"></th><th data-i18n="t_prod"></th><th data-i18n="t_mont"></th><th data-i18n="t_stat"></th><th data-i18n="t_date"></th></tr></thead>
+  <tbody id="orders"></tbody></table></div>`);
+function renderTop(){ document.getElementById("topList").innerHTML = TOP.map(x=>`
+  <div class="tp"><img src="${x.img}" alt=""><div><div class="n">${x[aLang]}</div><div class="c">${x.s[aLang]}</div></div></div>`).join(""); }
+function renderOrders(){ document.getElementById("orders").innerHTML = ORDERS.map(o=>`
+  <tr><td>${o.ref}</td><td>${o.cli}</td><td>${o.prod[aLang]}</td><td>${o.amt}</td>
+  <td><span class="badge b-${o.st==='s_ok'?'ok':o.st==='s_wait'?'wait':'ship'}">${at(o.st)}</span></td><td>${o.date}</td></tr>`).join(""); }
+renderTop(); renderOrders();
+window.onAdminLangChange = ()=>{ applyAdminLang(); renderTop(); renderOrders(); };
+</script>
+</body>
+</html>

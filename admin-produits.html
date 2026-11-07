@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Produits</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+<script>
+adminChrome("prod","d_prod");
+document.querySelector("main").insertAdjacentHTML("beforeend", `
+<div class="panel"><h3 data-i18n="p_count"></h3>
+<table><thead><tr><th>#</th><th data-i18n="t_prod"></th><th data-i18n="t_cat"></th><th data-i18n="t_prix"></th><th data-i18n="t_stock"></th></tr></thead>
+<tbody id="rows"></tbody></table></div>`);
+function render(){ document.getElementById("rows").innerHTML = PRODUCTS.map((p,i)=>`
+  <tr><td>${String(i+1).padStart(2,"0")}</td><td>${p[aLang]}</td><td>${CATS[p.cat][aLang]}</td><td>${p.price}</td><td>12</td></tr>`).join(""); }
+render();
+window.onAdminLangChange = ()=>{ applyAdminLang(); render(); };
+</script>
+</body>
+</html>

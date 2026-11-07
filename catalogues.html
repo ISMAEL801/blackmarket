@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK MARKET — Catalogues</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<section class="page">
+  <div class="sec-head">
+    <div class="sec-kicker" data-i18n="c_kicker"></div>
+    <h2 class="sec-title" data-i18n="c_title"></h2>
+    <p class="sec-sub" data-i18n="c_sub"></p>
+  </div>
+  <div class="cat-grid" id="catGrid"></div>
+</section>
+<script src="js/data.js"></script>
+<script>
+injectChrome();
+function render(){ document.getElementById("catGrid").innerHTML = Object.keys(CATS).map(c=>`
+  <a class="cat-tile" href="collection.html?cat=${c}"><img src="${CATS[c].img}" alt="">
+  <div class="ov"><div class="nm">${CATS[c][lang]}</div><div class="ln">${t("view")} →</div></div></a>`).join(""); }
+render();
+window.onLangChange = render;
+</script>
+</body>
+</html>
